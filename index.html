@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quote of the Day</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #ff5fa2;
+      --pink-soft: #ffb3d1;
+      --glow: rgba(255, 95, 162, 0.35);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #141416;
+      color: #d4d4d8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      overflow: hidden;
+      cursor: default;
+      transition: background 1.2s ease;
+    }
+
+    /* Floating radiant blobs */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(110px);
+      z-index: -2;
+      animation: float 16s ease-in-out infinite;
+      transition: background 1.2s ease;
+    }
+    .blob.a { width: 480px; height: 480px; background: var(--pink); opacity: 0.35; top: -140px; left: -120px; }
+    .blob.b { width: 400px; height: 400px; background: #5c5c66; opacity: 0.5; bottom: -140px; right: -100px; animation-delay: -6s; }
+    .blob.c { width: 260px; height: 260px; background: var(--pink-soft); opacity: 0.2; top: 50%; left: 60%; animation-delay: -11s; }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(50px, -40px) scale(1.1); }
+      66% { transform: translate(-40px, 30px) scale(0.92); }
+    }
+
+    /* Halo that follows your mouse */
+    .halo {
+      position: fixed;
+      width: 340px; height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--glow), transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      left: 50%; top: 50%;
+      transition: background 1.2s ease;
+    }
+
+    /* Ring that pops wherever you click */
+    .ripple {
+      position: fixed;
+      width: 20px; height: 20px;
+      border: 2px solid var(--pink);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      animation: ripple 0.8s ease-out forwards;
+    }
+    @keyframes ripple {
+      to { width: 160px; height: 160px; opacity: 0; }
+    }
+
+    .date {
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #a1a1aa;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--pink);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 var(--glow); }
+      70% { box-shadow: 0 0 0 12px transparent; }
+      100% { box-shadow: 0 0 0 0 transparent; }
+    }
+
+    main {
+      max-width: 780px;
+      text-align: center;
+      margin: 48px 0;
+    }
+
+    .mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 6rem;
+      line-height: 0.5;
+      color: var(--pink);
+      opacity: 0.6;
+    }
+
+    blockquote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.8rem, 4.5vw, 3rem);
+      line-height: 1.3;
+      color: #fafafa;
+      margin-top: 12px;
+      transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+    }
+    blockquote.fade { opacity: 0; transform: translateY(14px); filter: blur(6px); }
+
+    .author {
+      margin-top: 24px;
+      font-size: 0.95rem;
+      background: linear-gradient(120deg, var(--pink), var(--pink-soft), #d4d4d8);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shine 5s linear infinite;
+      transition: opacity 0.5s ease;
+    }
+    @keyframes shine { to { background-position: 200% center; } }
+
+    .btn {
+      margin-top: 40px;
+      padding: 14px 32px;
+      border-radius: 999px;
+      border: 1px solid #34343a;
+      background: rgba(30, 30, 34, 0.7);
+      backdrop-filter: blur(10px);
+      color: #fafafa;
+      font-family: inherit;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      border-color: var(--pink);
+      box-shadow: 0 0 30px var(--glow);
+      transform: translateY(-3px);
+    }
+    .btn .arrow { display: inline-block; transition: transform 0.3s; }
+    .btn:hover .arrow { transform: rotate(180deg); }
+
+    /* Mood picker */
+    .moods {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .mood {
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 1px solid #34343a;
+      background: transparent;
+      color: #a1a1aa;
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .mood:hover { color: #fafafa; border-color: #6b6b75; }
+    .mood.active {
+      color: #141416;
+      background: var(--pink);
+      border-color: var(--pink);
+      box-shadow: 0 0 20px var(--glow);
+    }
+    .mood-label {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #6b6b75;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="blob a"></div>
+  <div class="blob b"></div>
+  <div class="blob c"></div>
+  <div class="halo" id="halo"></div>
+
+  <div class="date"><span class="dot"></span><span id="today"></span></div>
+
+  <main>
+    <div class="mark">&ldquo;</div>
+    <blockquote id="quote"></blockquote>
+    <div class="author" id="author"></div>
+    <button class="btn" id="next">New quote <span class="arrow">↻</span></button>
+  </main>
+
+  <div>
+    <div class="mood-label">Today's mood</div>
+    <div class="moods">
+      <button class="mood active" data-mood="chill">chill</button>
+      <button class="mood" data-mood="focused">focused</button>
+      <button class="mood" data-mood="hype">hype</button>
+      <button class="mood" data-mood="soft">soft</button>
+    </div>
+  </div>
+
+  <script>
+    // Add your own quotes here: { text: "...", author: "..." }
+    const quotes = [
+      { text: "It takes repetitive execution to even get marginally closer to your goals.", author: "From my notes" },
+      { text: "A river cuts through rock not because of its power, but because of its persistence.", author: "Unknown" },
+      { text: "The journey of a thousand miles begins with a single step.", author: "Lao Tzu" },
+      { text: "Luck is what happens when preparation meets opportunity.", author: "Seneca" },
+      { text: "Well begun is half done.", author: "Aristotle" }
+    ];
+
+    const quoteEl = document.getElementById("quote");
+    const authorEl = document.getElementById("author");
+
+    // Today's date
+    document.getElementById("today").textContent =
+      new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+
+    // Same quote all day, based on the date
+    const dayNumber = Math.floor(Date.now() / 86400000);
+    let index = dayNumber % quotes.length;
+
+    function showQuote(i, animate) {
+      if (animate) {
+        quoteEl.classList.add("fade");
+        authorEl.style.opacity = 0;
+        setTimeout(() => {
+          quoteEl.textContent = quotes[i].text;
+          authorEl.textContent = "— " + quotes[i].author;
+          quoteEl.classList.remove("fade");
+          authorEl.style.opacity = 1;
+        }, 500);
+      } else {
+        quoteEl.textContent = quotes[i].text;
+        authorEl.textContent = "— " + quotes[i].author;
+      }
+    }
+    showQuote(index, false);
+
+    document.getElementById("next").addEventListener("click", () => {
+      let next;
+      do { next = Math.floor(Math.random() * quotes.length); } while (next === index && quotes.length > 1);
+      index = next;
+      showQuote(index, true);
+    });
+
+    // Halo follows the mouse
+    const halo = document.getElementById("halo");
+    window.addEventListener("mousemove", e => {
+      halo.style.left = e.clientX + "px";
+      halo.style.top = e.clientY + "px";
+    });
+
+    // Ring pops where you click
+    window.addEventListener("click", e => {
+      const r = document.createElement("div");
+      r.className = "ripple";
+      r.style.left = e.clientX + "px";
+      r.style.top = e.clientY + "px";
+      document.body.appendChild(r);
+      setTimeout(() => r.remove(), 800);
+    });
+
+    // Moods change the colors of the glow
+    const moods = {
+      chill:   { pink: "#ff5fa2", soft: "#ffb3d1", glow: "rgba(255,95,162,0.35)", bg: "#141416" },
+      focused: { pink: "#e879a8", soft: "#c4c4cc", glow: "rgba(200,200,210,0.25)", bg: "#101012" },
+      hype:    { pink: "#ff2e88", soft: "#ff8cc0", glow: "rgba(255,46,136,0.5)",  bg: "#1a1418" },
+      soft:    { pink: "#ffb3d1", soft: "#ffe0ec", glow: "rgba(255,179,209,0.3)", bg: "#1c1b1e" }
+    };
+    document.querySelectorAll(".mood").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".mood").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const m = moods[btn.dataset.mood];
+        const root = document.documentElement.style;
+        root.setProperty("--pink", m.pink);
+        root.setProperty("--pink-soft", m.soft);
+        root.setProperty("--glow", m.glow);
+        document.body.style.background = m.bg;
+        document.querySelector(".blob.a").style.background = m.pink;
+        document.querySelector(".blob.c").style.background = m.soft;
+      });
+    });
+  </script>
+</body>
+</html>
