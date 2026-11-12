@@ -8,7 +8,7 @@ A public "Quote of the Day" website hosted on Azure Blob Storage, with no virtua
 | **Cloud** | Microsoft Azure |
 | **Services** | Storage Account (Blob), Resource Group |
 | **Site** | HTML / CSS / JavaScript |
-| **Live site** | `https://<your-storage-account>.z13.web.core.windows.net/` |
+| **Live site** | [stlab01fanta.z13.web.core.windows.net](https://stlab01fanta.z13.web.core.windows.net/) |
 | **Author** | Fanta Amouzougan |
 
 ### 🎥 Watch me build this
@@ -38,7 +38,7 @@ Instead of the lab's default "Hello from the Cloud" page, I built an interactive
 
 ```mermaid
 flowchart LR
-    U["👤 Visitor<br/>(Web Browser)"] -->|"HTTPS request"| E["🌐 Primary Endpoint<br/>&lt;account&gt;.z13.web.core.windows.net"]
+    U["👤 Visitor<br/>(Web Browser)"] -->|"HTTPS request"| E["🌐 Primary Endpoint<br/>stlab01fanta.z13.web.core.windows.net"]
     E --> W["📦 $web container"]
     W -->|"default document"| I["index.html<br/>(HTML + CSS + JS)"]
     W -.->|"file not found"| N["404.html"]
@@ -52,8 +52,8 @@ flowchart LR
 ```mermaid
 flowchart TB
     subgraph SUB["Azure Subscription"]
-        subgraph RG["Resource Group: rg-lab01-&lt;name&gt; (East US)"]
-            subgraph SA["Storage Account: stlab01&lt;name&gt;<br/>Standard · LRS · Static website ON"]
+        subgraph RG["Resource Group: rg-lab01-fanta (East US)"]
+            subgraph SA["Storage Account: stlab01fanta<br/>Standard · LRS · Static website ON"]
                 W["$web container<br/>(public read)"]
                 O["Other containers<br/>(private)"]
             end
@@ -91,16 +91,16 @@ lab-01-azure-static-website/
 
 | Resource | Value | Constraints |
 |---|---|---|
-| Resource Group | `rg-lab01-<name>` | Prefix shows the resource type at a glance |
+| Resource Group | `rg-lab01-fanta` | Prefix shows the resource type at a glance |
 | Region | East US | Keep everything in one region |
-| Storage Account | `stlab01<name>` | Globally unique, 3 to 24 characters, lowercase letters and numbers only |
+| Storage Account | `stlab01fanta` | Globally unique, 3 to 24 characters, lowercase letters and numbers only |
 
-Storage account names become part of a public web address (`<name>.blob.core.windows.net`), which is why they must be unique across all of Azure, not just your subscription.
+Storage account names become part of a public web address (`stlab01fanta.blob.core.windows.net`), which is why they must be unique across all of Azure, not just your subscription.
 
 ### Steps
 
 **1. Create the Resource Group**
-Azure Portal → Resource groups → **+ Create** → name `rg-lab01-<name>`, region **(US) East US** → Review + create → Create.
+Azure Portal → Resource groups → **+ Create** → name `rg-lab01-fanta`, region **(US) East US** → Review + create → Create.
 
 > A Resource Group is a lifecycle boundary, not just a folder. One delete removes the entire lab.
 
@@ -109,7 +109,7 @@ Storage accounts → **+ Create**:
 
 | Setting | Value | Why |
 |---|---|---|
-| Resource group | `rg-lab01-<name>` | Keeps the lifecycle contained |
+| Resource group | `rg-lab01-fanta` | Keeps the lifecycle contained |
 | Performance | Standard | Premium is unnecessary for small static files |
 | Redundancy | Locally-redundant storage (LRS) | 3 copies in one datacenter, the cheapest option |
 
@@ -159,7 +159,7 @@ All three languages live in one `index.html` file. HTML is the structure, CSS (i
 ## 🧹 Cleanup
 
 Deleting the resource group removes the storage account and every file in it in one action:
-Resource groups → `rg-lab01-<name>` → **Delete resource group** → type the name to confirm.
+Resource groups → `rg-lab01-fanta` → **Delete resource group** → type the name to confirm.
 
 > I'm keeping this site live as part of my portfolio.
 
