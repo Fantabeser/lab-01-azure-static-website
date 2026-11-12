@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #ff5fa2;
+      --pink-soft: #ffb3d1;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #141416;
+      color: #d4d4d8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 32px 24px;
+      overflow: hidden;
+    }
+
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(110px);
+      z-index: -1;
+      animation: float 16s ease-in-out infinite;
+    }
+    .blob.a { width: 420px; height: 420px; background: var(--pink); opacity: 0.3; top: -140px; left: -120px; }
+    .blob.b { width: 380px; height: 380px; background: #5c5c66; opacity: 0.5; bottom: -140px; right: -100px; animation-delay: -6s; }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(40px, 30px) scale(1.08); }
+    }
+
+    .code {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(5rem, 18vw, 9rem);
+      color: var(--pink);
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(255, 95, 162, 0.45);
+    }
+
+    .message {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 4vw, 1.6rem);
+      color: #f4f4f5;
+      margin-top: 20px;
+      max-width: 520px;
+    }
+
+    .sub {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      color: #a1a1aa;
+    }
+
+    a.home {
+      display: inline-block;
+      margin-top: 32px;
+      padding: 12px 24px;
+      border: 1px solid var(--pink);
+      border-radius: 999px;
+      color: var(--pink-soft);
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    a.home:hover {
+      background: var(--pink);
+      color: #141416;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .blob { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="blob a"></div>
+  <div class="blob b"></div>
+
+  <div class="code">404</div>
+  <p class="message">"Not all who wander are lost." But this page is.</p>
+  <p class="sub">The page you're looking for doesn't exist.</p>
+  <a class="home" href="/">Back to today's quote</a>
+</body>
+</html>
