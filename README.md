@@ -12,7 +12,7 @@ A public "Quote of the Day" website hosted on Azure Blob Storage, with no virtua
 | **Author** | Fanta Amouzougan |
 
 ### 🎥 Watch me build this
-👉 `<your Loom link>`
+👉 `https://www.loom.com/share/182fdce90de5498781c33b07db52ae44`
 
 ---
 
